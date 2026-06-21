@@ -32,9 +32,16 @@ export function BirthdayScene() {
     scene.resize();
     scene.initIntro("Feliz Aniversário,\nJulia!");
     scene.start();
-    void scene.loadImages(PICTURES).catch((err) => {
-      console.error("Failed to load pictures:", err);
-    });
+    void fetch("/api/pictures")
+      .then((res) => res.json())
+      .then((data) => {
+        const list = data.ok && data.images && data.images.length > 0 ? data.images : PICTURES;
+        return scene.loadImages(list);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch pictures list, falling back:", err);
+        return scene.loadImages(PICTURES);
+      });
 
     const audio = audioRef.current;
     const startAudio = () => {

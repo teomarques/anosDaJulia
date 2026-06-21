@@ -221,8 +221,7 @@ export class Scene {
     this.imageEls = els;
     // Pre-create FloatingImage wrappers (one per photo, reused).
     this.images = els.map((el) => new FloatingImage(el));
-    // Initial throw order is just 0..n
-    this.throwQueue = els.map((_, i) => i);
+    // Initialize cycleOrder with all indices shuffled
     this.cycleOrder = shuffle(els.map((_, i) => i));
     this.cycleIdx = 0;
   }
@@ -297,7 +296,11 @@ export class Scene {
         if (!this.stickman.isBusy()) {
           this.setPhase("throw");
           this.nextThrowAt = this.time + 0.2;
-          this.throwQueue = this.imageEls.map((_, i) => i);
+          // Select a random subset of at most 8 images for initial throwing
+          const allIndices = this.imageEls.map((_, i) => i);
+          const shuffledAll = shuffle([...allIndices]);
+          const initialThrowCount = Math.min(8, this.imageEls.length);
+          this.throwQueue = shuffledAll.slice(0, initialThrowCount);
         }
         break;
       }

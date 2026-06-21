@@ -1,0 +1,31 @@
+// Prisma schema for the Julia birthday site.
+// The core data model is a "DisposableToken": a one-time-use access token.
+// First visit -> validated + burned (used = true). Any subsequent visit is denied.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A disposable access token. Each token can only grant access ONCE.
+// After the first successful validation the row is flipped to used = true
+// and usedAt is stamped, so any replay (refresh / shared link) is rejected.
+model DisposableToken {
+  id        String    @id @default(cuid())
+  // The random token string that appears in the URL (?token=xyz)
+  token     String    @unique
+  // Whether the token has already been consumed
+  used      Boolean   @default(false)
+  // When the token was created
+  createdAt DateTime  @default(now())
+  // When the token was consumed (null until first use)
+  usedAt    DateTime?
+  // Optional human label so the sender can tell tokens apart (e.g. "para a Julia")
+  label     String?
+
+  @@index([token])
+}

@@ -1,0 +1,42 @@
+# dependencies
+/node_modules
+/mini-services/secure-server/node_modules
+
+# Next.js build output
+/.next/
+/out/
+
+# Production build standalone
+/build/
+
+# debug and logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode/Editor local history
+.history/
+.vscode/
+
+# databases
+*.db
+*.db-journal
+*.sqlite
+

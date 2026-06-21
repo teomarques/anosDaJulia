@@ -1,0 +1,17 @@
+{
+  "name": "render-secure-server",
+  "version": "1.0.0",
+  "description": "Secure Express.js static file server with IP filtering and Cookie bypass for Render",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

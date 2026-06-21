@@ -7,6 +7,11 @@ const COOKIE_NAME = 'secure_access';
 const COOKIE_VALUE = 'granted';
 
 export function proxy(request: NextRequest) {
+  // Permitir acesso livre ao Health Check do Render
+  if (request.nextUrl.pathname === '/api/health') {
+    return NextResponse.next();
+  }
+
   // Captura o IP real do visitante passado pelo Render
   let ipVisitante = request.headers.get('x-forwarded-for') || request.ip || request.headers.get('x-real-ip') || '';
 
